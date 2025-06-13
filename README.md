@@ -52,3 +52,11 @@ export default tseslint.config({
   },
 })
 ```
+
+
+
+// some point a verifier 
+ 1. chaque sondage doit avoir une list des operation returne sondage
+ 2. creation sondage avec list  operation // pas operations
+ 3.GET /sondages/{id}/ 
+  
