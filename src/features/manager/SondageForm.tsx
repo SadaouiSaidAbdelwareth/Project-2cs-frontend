@@ -37,7 +37,7 @@ const SondageForm = () => {
   
 
   useEffect(() => {
-  if (formNumber === 2 && phases.length === 0) {
+  if (formNumber === 2 && phases.length === 0) { 
     setPhases([
       {
         phase_name: '',
@@ -62,9 +62,9 @@ const SondageForm = () => {
   
 
   return (
-    <div className="relative flex justify-center items-center w-screen h-screen bg-white">
-      <h2 className="absolute top-16 text-center text-[24px] text-[#8C52FF] font-semibold mb-6">
-        Veuillez remplir ce formulaire pour créer un sondage
+    <div className="relative flex flex-col justify-center items-center w-screen h-screen bg-white">
+      <h2 className="absolute top-5 text-center text-[24px] text-[#8C52FF] font-semibold mb-6">
+        Veuillez remplir ce formulaire pour créer un sondage 
       </h2>
       <IoArrowBackSharp onClick={()=>{navigate(-1 )}}  className=' absolute top-6 left-6 text-3xl cursor-pointer text-white bg-[#6FBAEE] rounded-full text-5xl p-2'   />
        
@@ -74,7 +74,7 @@ const SondageForm = () => {
       <div className=" w-3/4 md:w-1/2 lg:w-1/3 p-8 rounded-lg shadow-2xl">
 
       { formNumber===1 &&  (
-        <form className=" max-h-120 space-y-4">
+        <form className=" max-h-120">
          <div>
             <label className="block text-[var(--color-secondary)] font-medium mb-2">Endroit</label>
             <input
@@ -235,7 +235,7 @@ const SondageForm = () => {
           p => !p.phase_name.trim() || !p.cout || !p.starting_date || !p.ending_date
         );
 
-        if (isEmptyFieldExists) {
+        if (isEmptyFieldExists || phases.length >= 4) {
           return;
         }
 
@@ -250,12 +250,14 @@ const SondageForm = () => {
           },
         ]); 
       }}
+      disabled={phases.length >= 4}
       className="self-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
     >
       + phase
     </button>
   </form>
-)}
+)} 
+
 
 
       {formNumber === 3 && (
@@ -387,7 +389,7 @@ const SondageForm = () => {
           </button>
                {msg && (
           <div
-            className={`absolute top-0 left-1/2 w-full transform -translate-x-1/2 bg-white rounded-lg shadow-2xl text-black px-2 py-2 transition-all duration-500 ease-in-out opacity-100 ${
+            className={` text-xl absolute top-0 left-1/2 w-full transform -translate-x-1/2 bg-white rounded-lg shadow-2xl text-black px-2 py-2 transition-all duration-500 ease-in-out opacity-100 ${
               msgVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-5'
             }`}
           >
@@ -396,6 +398,7 @@ const SondageForm = () => {
         )}
 
         </div>
+       
 
 
         <div className="flex space-x-4 items-center mt-6">
@@ -403,7 +406,7 @@ const SondageForm = () => {
             Annuler
           </button>
 
-          <button
+          <button 
             type="button"
             className="bg-green-500 text-white px-4 w-1/2 py-2 rounded-lg hover:bg-green-600"
             onClick={async () => {
@@ -513,6 +516,40 @@ setTimeout(() => {
 
 
       </div>
+          
+       <p className=" shadow-2xl bg-[#aa83f7]   cursor-pointer  mt-8 text-xl  text-black px-4  py-2 rounded-lg "
+       onClick={ async ()=> {
+        try {
+          setLoad(true)
+            const response= await axios.post( '/insert_all_data/' )
+            if (!response.status) setMsg('la creation des donnes  est echouer')   
+              else {setMsg('les donnes sont creer avec succes')
+            await new Promise(resolve => setTimeout(resolve, 3500)); 
+            navigate('/sondageList') }  
+            
+        }
+        catch(error){ 
+          
+          setMsg('une erreur lors de la creation des donnes ') 
+          
+        }
+        finally { 
+          setLoad(false)
+          setMsgVisible(true);
+          setTimeout(() => {
+            setMsgVisible(false);
+            setTimeout(() => setMsg(""), 500);
+          }, 3500);
+          
+        }
+      
+       } }  
+       >
+              creation de donnes automatiques 
+        </p>
+
+         
+
     </div>
   );
 };
