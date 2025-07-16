@@ -7,7 +7,7 @@ export interface Phase {
     estimated_cout: number;
     depth?: number;
     estimated_depth?: number;
-    sondage_id: number;
+    sondage: number;
 }
 
 export interface Sondage { 

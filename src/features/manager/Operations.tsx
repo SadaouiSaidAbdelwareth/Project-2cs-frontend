@@ -55,7 +55,7 @@ const navigate = useNavigate()
             {setIdOperationClicked(ope.id),setCurrent_real_cout(ope.real_cout),setCurrent_estimated_cout(ope.estimated_cout) } } 
             className={`text-[20px] font-semibold cursor-pointer p-2 ${idOperationClicked === ope.id ? ' bg-[#6FBAEE] rounded-xl text-white ':' bg-none text-[#6FBAEE] '  } `} >{ope.name}</p>
         ) }
-        </div>
+        </div> 
         :
         <div className='flex justify-center items-center h-full'>
           {/* Spinner SVG */}

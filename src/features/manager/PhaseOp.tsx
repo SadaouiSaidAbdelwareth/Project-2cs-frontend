@@ -72,30 +72,22 @@ total+=oper.total_cout
 
          </div>
 
-
-         <div className=' w-full h-[450px] flex items-center justify-center rounded-2xl bg-[#F3F3F3]  '>
-         
-
-        <PieChart
-  
-  series={[
-    {
-      data: data,
-       highlightScope: { fade: 'global', highlight: 'item' },
-      faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
-      
-    },
-  ]}
-   width={300}
-  height={300}
-/>
-
-             
-
-
-          
-
-         </div>
+<div className='w-full h-[450px] flex items-center justify-center rounded-2xl bg-[#F3F3F3]'>
+  <PieChart 
+    series={[
+      {
+        data: data,
+        highlightScope: { fade: 'global', highlight: 'item' },
+        faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
+      },
+    ]}
+    width={300}
+    height={300}
+    slotProps={{
+      legend: { hidden: true }
+    }}
+  />
+</div>
 
       
       

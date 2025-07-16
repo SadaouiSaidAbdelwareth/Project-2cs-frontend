@@ -6,18 +6,15 @@ import { useState } from 'react';
 const ProbComponent = ({ description, degre }: { description: string; degre: number }) => {
 
     const [showModal, setShowModal] = useState(false);
-    const [problemdegre, setProblemdegre] = useState(degre);
-    const [problemDescription, setProblemDescription] = useState(description);
+    const [problemdegre, setProblemdegre] = useState(
+        degre === 3 ? 'High degree' : degre === 2 ? 'Medium degree' : 'Low degree'
+    );  const [problemDescription, setProblemDescription] = useState(description);
 
     return (
         <>
         <div className='problem'>
                 <span 
-                    className={
-                        degre === 3 ? 'highprobdegre' : 
-                        degre === 0 ? 'mediumprobdegre' : 
-                        'lowprobdegre'
-                    }
+                    className=' text-red-700 font-bold text-xl'
                 >
                     {problemdegre}
                 </span>

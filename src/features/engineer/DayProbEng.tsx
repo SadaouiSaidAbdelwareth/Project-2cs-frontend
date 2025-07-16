@@ -42,7 +42,7 @@ const fetchDayInfo = async () => {
 
  
 
-const navigate=useNavigate()
+const navigate=useNavigate() 
 
 
 return (
@@ -50,7 +50,7 @@ return (
       <div className='dayProbBar'>
         <button 
           className='' 
-          onClick={() => window.location.href = '/sondage/excel-import'}
+          onClick={() => window.location.href = '/'}
         >
           <IoMdArrowBack size={23} />
         </button>

@@ -5,6 +5,7 @@ import './engineer.css';
 import ExcelComponent from './excelComponent';
 import axios from 'axios';
 import { useSondageStore } from '../manager/store/sondageStore';
+import Cookie from 'js-cookie';
 
 type Repport = {
   id: number;
@@ -62,20 +63,26 @@ const ExcelImport = () => {
     }
   };
 
+  
   useEffect(() => {
     fetchAllDays().then((data) => setUploadedFiles(data));
-  }, [fileAddedMsg]);
+  }, [fileAddedMsg]); 
+  const handleLogout = () => { 
+    Cookie.remove('token', { path: '/' });
+    Cookie.remove('user_type', { path: '/' });
+    window.location.href = '/';
+  };  
 
   return (
-    <div className="container">
+    <div className="container"> 
       <div className="engineernav">
         <button className="bg-white">
           <img className="size-6" src={notification} alt="notification" />
         </button>
-        <button className="logbtn">
+        <button onClick={handleLogout} className="logbtn">
           <img id="logout" src={logout} alt="Logout" /> Logout
         </button>
-      </div>
+      </div> 
 
       <div className="titlediv">
         <span id="importtitle">Rapports Excel</span>
@@ -100,7 +107,7 @@ const ExcelImport = () => {
       <div className="exceldiv">
         {uploadedFiles.map((file, index) => (
           <ExcelComponent
-            key={file.id}
+            id={Number(file.id)} 
             excelDay={String(file.id)}
             excelDate={file.date}
             file={file.repport.excel_path}

@@ -3,11 +3,36 @@ import { Sondage } from "../types/sondage";
 
 export const fetchSondages = async ():Promise<Sondage[]> => { 
     try {
-      const response =await fetch('/sondages/');
-      let data:Sondage[] = await response.json();
+     // const response =await fetch('/sondages/');
+     // let data:Sondage[] = await response.json();
     
   
-      return data
+      // return fake list of sondage
+      return [
+        {
+          id: 1,
+          endroit: "Alger",
+          started_date: "2024-06-01",
+          estimated_cout: 10000,
+          real_cout: 9500,
+          days_estimated: "2024-06-10",
+          depth: 50,
+          but: "Étude géologique",
+          phases: [1, 2],
+          days: "9"
+        },
+        {
+          id: 2,
+          endroit: "Oran",
+          started_date: "2024-05-15",
+          estimated_cout: 8000,
+          real_cout: 8200,
+          days_estimated: "2024-05-20",
+          but: "Recherche d'eau",
+          phases: [3],
+          days: "5"
+        }
+      ] as Sondage[];
     } catch (error) {
       console.error('Error fetching sondages:', error);
       throw error;

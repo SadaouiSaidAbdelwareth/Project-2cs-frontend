@@ -4,14 +4,14 @@ import './engineer.css';
 import { useNavigate } from 'react-router-dom';
 
 type ExcelComponentProps = {
-  key:number
+  id:number
   excelDay: string;
   excelDate: string;
   file: string; // c'est maintenant une URL
   filename?: string;
-};
+}; 
 
-const ExcelComponent: FC<ExcelComponentProps> = ({key, excelDay, excelDate, file, filename }) => {
+const ExcelComponent: FC<ExcelComponentProps> = ({id, excelDay, excelDate, file, filename }) => {
   const handleDownload = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     try {
@@ -30,20 +30,16 @@ const ExcelComponent: FC<ExcelComponentProps> = ({key, excelDay, excelDate, file
       console.error('Erreur lors du téléchargement du fichier :', error);
       alert("Erreur lors du téléchargement du fichier.");
     }
-  };
+  };  
   const navigate= useNavigate()
 
-  return (
-    <div className="card">
-      <div className="exceltitle cursor-pointer" onClick={()=>{navigate(`/days/${key}/dayProbEng`) }}>
+  return (  
+
+    <div className="card" onClick={()=>{navigate(`/alldays/${id}/dayProbEng`) }} >
+      <div className="exceltitle cursor-pointer" >
         <span id="excelDay">{excelDay}</span>
         <span id="excelDate">{excelDate}</span>
-      </div>
-      <div className="btndiv">
-        <button className="downloadbtn" onClick={handleDownload}>
-          <img id="download" src={download} alt="download" />
-        </button>
-      </div>
+      </div> 
     </div>
   );
 };

@@ -7,29 +7,42 @@ import { GoAlertFill } from "react-icons/go";
 import PhaseOp from './PhaseOp';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PhaseContext, usePhase } from './components/PhaseContext';
-import { Phase } from './components/SideBarLayout';
+import { Phase, Sondage } from '../../types/sondage';
+import { useSondageStore } from './store/sondageStore';
+import { fetchSondage } from '../../services/sondageServices';
+import { Phase2 } from './components/SideBarLayout';
 
 
 const PhaseDash = () => {
 
   const { phaseId } = useParams<{ phaseId?: string }>()
-
-
-
-  const phases:Phase[] = usePhase();  
-
-  useEffect(()=> { console.log(phases) } )  
-
-
-
-
-  return (      
-
   
+
+
+
+  const phases:Phase[] = usePhase();   
+
+  const [phase, setPhase] = useState<Phase2|null>();
+
+  useEffect(() => {   
+    if (phaseId) {
+      fetch(`/phases/${phaseId}/`)
+        .then((res) => res.json())
+        .then((data) => setPhase(data.phase))
+        .catch(() =>setPhase(null));
+    }
+  }, [phaseId]);
+
+
+ 
+
+
+  return (
+
       <div className='  mt-[85px]   ml-[247px]   flex flex-col  space-y-6 p-6 '>
          <div className=' flex px-12 justify-between items-center text-[20px]  text-[#8C52FF] font-bold '> 
             <p className=' text-2xl'>
-             Phase {phases.find((p) => p.id === Number(phaseId))?.name || `Phase ${phaseId}`} 
+              {phases.find((p) => p.id === Number(phaseId))?.name || `Phase ${phaseId}`} 
               
             </p> 
             <div className=' text-xl flex space-x-3  p-3.5    '>
@@ -44,11 +57,11 @@ const PhaseDash = () => {
                <p className=' text-black font-bold'>to</p>
                 <p className=' text-[#6FBAEE] '> {phases
               .find((p) => p.id === Number(phaseId))
-              ?.ending_date
+              ?.estimated_ending_date
               ? new Date(
-                phases.find((p) => p.id === Number(phaseId))!.ending_date
+                phases.find((p) => p.id === Number(phaseId))!.estimated_ending_date
                 ).toLocaleDateString('fr-FR')
-              : ''} 12/08/2025 </p>
+              : ''}</p>
             </div>
             <p>
               {
@@ -66,8 +79,9 @@ const PhaseDash = () => {
 
          <div className='  w-full flex flex-col items-center'>
            <div className=' h-[218px] w-full bg-[#F3F3F3] rounded-2xl flex flex-col justify-between items-center py-8 px-26 '>
-                   <CostBar cout={10000} seuil={19000} />
-                   <DelaiBar delai={10} seuil={15}  />  
+                   <CostBar cout={Number(phase?.cout)} seuil={Number(phase?.estimated_cout)} />
+                   <DelaiBar delai={Number(phase?.days)} seuil={Number(phase?.estimated_days)}  />  
+
                  
          
               </div>
@@ -80,10 +94,8 @@ const PhaseDash = () => {
 
             
             <div className="grid w-[100%] grid-cols-2 gap-4 mt-8">
-              {phases
-              .find((p) => p.id === Number(phaseId) )
-              ?.problems?.sort((a, b) => b.degre - a.degre)
-              .map((probleme) => (
+              {phase?.problems
+              ?.map((probleme) => (
                 <div
                 key={probleme.id}
                 className="bg-[#F3F3F3] shadow-xl h-[181px] rounded-lg p-4 px-6 flex flex-col space-y-2"
@@ -128,6 +140,11 @@ const PhaseDash = () => {
 
       </div>
     
+
+
+
+      
+
 
 
 

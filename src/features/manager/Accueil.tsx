@@ -35,7 +35,7 @@ const Accueil = () => {
      const [errorMessagePhase, setErrorMessagePhase] = useState<string | null>(null);
 
      
-
+  
   useEffect(() => {
     if (sondageId !== undefined) {
       setSondageId(sondageId);
@@ -108,15 +108,18 @@ const data_prevision = phases.map(phase => {
     name: phase.name,
     depth: phase.estimated_depth,
   };
-});
+});  
 
-// Données fictives pour le graphique "Réel"
 const data_reel = [
-  { name: "8``1/2", depth: 9450 },
-  { name: "12``1/4", depth: 6137 },
-  { name: "16``", depth: 3280 },
-  { name: "26``", depth: 306 },
+  { name: "8'' 1/2", depth: 9450 },
+  { name: "12'' 1/4", depth: 6137 },
+  { name: "16''", depth: 2746 },
+  { name: "26'", depth: 306 },
 ];
+
+
+// Données fictives pour le graphique "Réel" 
+
 /*
 const data_reel = phases.map(phase => { 
   return {
@@ -269,7 +272,7 @@ interface CostBarProps {
   seuil: number;
 }
 
-export const CostBar = ({ cout, seuil }: CostBarProps) => {
+export const CostBar = ({ cout, seuil }: CostBarProps) => { 
   const seuilVert = seuil * 0.5; // 50% of the threshold
   const seuilJaune = seuil; // Threshold value
   const seuilRouge = seuil * 1.5; // 150% of the threshold
@@ -310,20 +313,17 @@ export const CostBar = ({ cout, seuil }: CostBarProps) => {
 };
 
 export const DelaiBar = ({ delai, seuil }: { delai: number; seuil: number }) => {
-  const seuilVert = seuil * 0.5; // 50% of the threshold
-  const seuilJaune = seuil; // Threshold value
-  const seuilRouge = seuil * 1.5; // 150% of the threshold
+  const seuilVert = seuil;
+  const seuilJaune = seuil * 3;
+  const seuilRouge = seuil * 5;
 
-  const getColor = () => {
-    if (delai <= seuilVert) return 'bg-green-500';
-    if (delai <= seuilJaune) return 'bg-yellow-500';
-    return 'bg-red-500';
-  };
-
+  // Returns a value between 0% and 95%, and if out of bounds, sticks to the edge
   const getPosition = () => {
     const max = seuilRouge;
-    const percentage = Math.min((delai / max) * 100, 100);
-    return `${Math.max(0, percentage)}%`; // Ensure the position is within bounds
+    let percentage = (delai / max) * 100;
+    if (percentage < 0) percentage = 0;
+    if (percentage > 95) percentage = 95; // stick to 95% if over
+    return `${percentage}%`;
   };
 
   return (
@@ -348,6 +348,3 @@ export const DelaiBar = ({ delai, seuil }: { delai: number; seuil: number }) => 
     </div>
   );
 };
-
-
-

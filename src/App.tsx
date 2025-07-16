@@ -14,19 +14,56 @@ import SignIn from "./features/SignIn";
 import { SondageList } from "./features/manager/SondageList";
 import ManagerLayout from "./features/manager/components/ManagerLayout ";
 import SideBarLayout from "./features/manager/components/SideBarLayout";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { SupabaseTest } from "./features/supabaseTest";
 
-export default function App() {
-  const role = getUserRole();
+export default function App() { 
+  const [role, setRole] = useState<string | null>(null);
 
-  return (
+  useEffect(() => {
+    async function checkUser() { 
+      const token = Cookies.get("token");
+      const userType = Cookies.get("user_type");
+      
+      if (!token) { 
+        setRole(null);
+        console.log('token is null')
+        return;
+      }
+      try {
+        /*
+        const res = await fetch("/check_user/", {
+          method: "POST",
+          headers: {
+        "Content-Type": "application/json"
+          },
+          credentials: "include",
+          body: JSON.stringify({ token : token })
+        });
+        const data = await res.json();
+        */
+        if ( userType) {  
+          setRole(userType);
+        } else {
+          setRole(null);
+        }
+      } catch {
+        setRole(null);
+      }
+    }
+    checkUser();
+  }, []);
+
+  return (  
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={ <SignIn /> } />
+        {role === null &&       <Route path="/" element={ <SignIn /> } />  } 
 
         {/* Manager routes */}
-        {role === "manager" && ( 
+        {role === "Manager" && ( 
           <>
-            <Route path="/sondageList" element={<SondageList />} />
+            <Route path="/" element={<SondageList />} />
             <Route path="/sondageForm" element={<SondageForm />} />
             
             <Route element={<ManagerLayout/>} >
@@ -63,10 +100,10 @@ export default function App() {
         )}
 
         {/* Engineer routes */}
-        {role === "engineer" && (  
+        {role === "Ingenieur" && (  
 
-          <> 
-          <Route path="/sondage/excel-import" element={<Excelimport />} />
+          <>  
+          <Route path="/" element={<Excelimport />} />
           <Route path="/alldays/:dayId/problemForm" element={<ProblemForm />} />
           <Route path="/alldays/:dayId/dayProbEng" element={<DayProbEng />} />
 

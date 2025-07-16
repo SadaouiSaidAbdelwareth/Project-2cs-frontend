@@ -4,6 +4,7 @@ import notification from './assets/notification.svg';
 import './engineer.css';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Cookie from 'js-cookie';
 
 const ProblemForm = () => {
   const { dayId } = useParams();
@@ -91,6 +92,11 @@ const ProblemForm = () => {
     const data = await response.json();
     return data.date || '';
   };
+  const handleLogout = () => { 
+    Cookie.remove('token', { path: '/' });
+    Cookie.remove('user_type', { path: '/' });
+    window.location.href = '/';
+  };
 
   return (
     <div className='ProblemContainer'>
@@ -98,7 +104,7 @@ const ProblemForm = () => {
         <button className='bg-white'>
           <img id='notification' src={notification} alt='notification' />
         </button>
-        <button className='logbtn'>
+        <button  onClick={handleLogout} className='logbtn'>
           <img id='logout' src={logout} alt='Logout' /> Logout
         </button>
       </div>

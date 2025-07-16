@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     proxy: {
-      '/phase': {
+      '/phase': { 
         target: 'http://localhost:8000',
         changeOrigin: true,
         secure: false,
@@ -32,8 +32,21 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
-
-      
+      '/login': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/check_user': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/phases': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        secure: false,
+      }, 
      
     },
     

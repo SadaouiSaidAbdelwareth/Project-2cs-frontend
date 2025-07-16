@@ -4,6 +4,9 @@ import { CiSettings } from "react-icons/ci";
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Accueil from '../Accueil';
 import { useSondageStore } from '../store/sondageStore';
+import Cookie from 'js-cookie';
+import logout from '../../engineer/assets/logout.svg';
+
 
 const NavBar = () => {
   const  sondageId  = useSondageStore((state)=> state.sondageId); 
@@ -13,7 +16,7 @@ const NavBar = () => {
   const [activeMenuItem,setActiveMenuItem] = useState('General')
    const location = useLocation() 
   const [phaseId,setPhaseId] = useState(Number) 
-
+   const [dayId,setDayId] = useState(Number) 
   useEffect( ()=>{ 
   if (location.pathname === `/accueil/${sondageId}`) {
     setActiveMenuItem('General');
@@ -21,13 +24,14 @@ const NavBar = () => {
     setActiveMenuItem('phases');
   } else if (location.pathname === '/operations') {
     setActiveMenuItem('operations');
-  } else if (location.pathname === '/days/1/cost') {
+  } else if (location.pathname === `/days/${dayId}/cost`) {
     setActiveMenuItem('days');
   }
 fetchPhases()
+fetchDayId() 
     
 
-  },[location,sondageId]
+  },[location,sondageId] 
 
   )
 
@@ -43,7 +47,27 @@ fetchPhases()
       } finally {
         
       }
-    };
+    }; 
+  const fetchDayId = async () => {
+      try {
+        const response = await fetch(`/sondages/${sondageId}/days/`);
+        const data = await response.json();
+        if (data && data.length > 0) {
+          setDayId(data[0].id);
+        }
+      } catch (error) {
+        // handle error if needed
+      } finally {
+        
+      }
+    }; 
+
+
+  const handleLogout = () => { 
+    Cookie.remove('token', { path: '/' });
+    Cookie.remove('user_type', { path: '/' });
+    window.location.href = '/';         
+  }; 
     
   return ( 
     <div className=' w-screen'>
@@ -56,7 +80,7 @@ fetchPhases()
               if(m==='General') return `/accueil/${sondageId}`
               else if ( m=== 'phases') return `/phases/${phaseId}/dashboard`
               else if  ( m=== 'operations') return `/operations`
-              else return `/days/1/cost` 
+              else return `/days/${dayId}/cost`
              })();
              navigate(path) } }
              className={`  text-[24px] font-medium  ${ m===activeMenuItem ? " text-[#6FBAEE] bg-white " : "text-white " } `} >
@@ -65,7 +89,9 @@ fetchPhases()
           ) }
 
         </div>
-        <CiSettings onClick={()=>{navigate("/settingsPhase")}}  className=' cursor-pointer text-[#6FBAEE] bg-white rounded-full text-5xl p-1'   />
+        <button onClick={handleLogout} className="logbtn">
+                  <img id="logout" src={logout} alt="Logout" /> Logout
+                </button>
 
     </div>
     

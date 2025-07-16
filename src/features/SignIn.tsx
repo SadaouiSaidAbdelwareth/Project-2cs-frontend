@@ -4,6 +4,7 @@ import logo from "../assets/logoSonatrac.png";
 import bg_photo from "../assets/bg_photo.png";
 import { IoMailOutline } from "react-icons/io5";
 import { RiLockPasswordFill } from "react-icons/ri";
+import Cookies from "js-cookie";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -13,17 +14,50 @@ export default function SignIn() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const user = fakeUsers.find(
-      (u) => u.email === email && u.password === password
-    );
-
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-      if (user.role === "manager") navigate("/sondageList");
-      else if (user.role === "engineer") navigate("/sondage/excel-import");
-    } else {
-      alert("Email ou mot de passe incorrect !");
-    }
+ /* fetch("/login/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ email: email, password: password })
+  })
+    .then(async (res) => {
+      if (!res.ok) {
+        throw new Error("Login failed");
+      }
+      const data = await res.json();
+      // Using js-cookie package to set the token cookie for 4 weeks
+      Cookies.set("token", data.token, { 
+        path: "/", 
+        secure: true, 
+        sameSite: "strict", 
+        expires: 28 // 28 days = 4 weeks
+      });
+      Cookies.set("user_type", data.user_type, { 
+        path: "/", 
+        secure: true, 
+        sameSite: "strict", 
+        expires: 28 
+      });
+      window.location.href = "/";
+    }) 
+    .catch((err) => {
+      alert("Login failed: " + err.message);
+    });
+    */
+    Cookies.set("token","fake-token-123456", { 
+      path: "/", 
+      secure: true,   
+      sameSite: "strict", 
+      expires: 28 // 28 days = 4 weeks
+    });
+      Cookies.set("user_type", email==='manager@gmail.com' ?'Manager' :'Ingenieur' , { 
+        path: "/", 
+        secure: true, 
+        sameSite: "strict", 
+        expires: 28 
+      });
+      window.location.href = "/";
   };
 
   return (
@@ -96,8 +130,3 @@ export default function SignIn() {
     </div>
   );
 }
-
-export const fakeUsers = [
-  { email: "manager@example.com", password: "123", role: "manager" },
-  { email: "engineer@example.com", password: "123", role: "engineer" }
-];

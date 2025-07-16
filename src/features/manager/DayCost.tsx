@@ -23,6 +23,7 @@ type DayInfo = {
     repport: {
       id: number;
       excel_path: string;
+      drive_file_id:string
     };
     remarques: {
       id: number;
@@ -34,6 +35,7 @@ type DayInfo = {
       cout: number;
     }[];
   };
+
 
     type Repport = {
     id: number;
@@ -48,14 +50,13 @@ type DayInfo = {
     repport: Repport;
   };
 
-
 const DayCost = () => {
 
   const {dayId} = useParams()
 
 
 
-  const [dayInfo, setDayInfo] = useState<DayInfo>();
+ const [dayInfo, setDayInfo] = useState<DayInfo>();
 
   const [menu,setMenu]=useState('info') //info , problems  , excel
 
@@ -267,14 +268,14 @@ const DayCost = () => {
 
         </div> 
         
-        :
+        : 
 
         <div className='w-full flex flex-col space-y-6 items-center'>
   <p className='text-[30px] text-[#8C54FF] font-bold'>Version Excel</p>
 
   <div className="w-full flex justify-center">
     <iframe 
-      src="https://drive.google.com/file/d/1HnWt3eqd4KWJhMmClzdYwX68TcgJUBzM/preview"
+      src={`https://drive.google.com/file/d/1HnWt3eqd4KWJhMmClzdYwX68TcgJUBzM/preview`} 
       title="Aperçu Excel"
       className="w-[80%] h-[600px] border rounded-lg shadow"
       style={{ background: 'white' }}
@@ -282,19 +283,7 @@ const DayCost = () => {
     />
   </div>
 
-  <button
-    onClick={() => {
-      window.open(
-        "https://drive.google.com/uc?export=download&id=1HnWt3eqd4KWJhMmClzdYwX68TcgJUBzM",
-        "_blank"
-      );
-    }}
-    className="flex items-center bg-[#8CD0F7] hover:bg-[#6FBAEE] text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200 shadow space-x-2"
-    style={{ width: 'fit-content' }}
-  >
-    <span className="mr-2"><RxDownload /></span>
-    <span>Télécharger</span>
-  </button>
+ 
 </div>
 
 

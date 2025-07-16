@@ -31,7 +31,7 @@ export default function Side_Bar() {
     <div className='  w-[247px] bg-[#F3F3F3] h-screen fixed flex flex-col items-center pt-3 '>
         <img onClick={()=> navigate(`/accueil/${sondageId}`) } src={logo} alt="" className=' cursor-pointer  size-[73px] ' />
            <div className='font-bold w-[70%]  text-[#2BA5FA] text-[20px] mt-20 flex flex-col space-y-10'>
-          {phases.map((p) => (
+          {phases?.map((p) => (
             <div key={p.id} className='flex flex-col space-y-2 w-'>
               <div
                 className='flex items-center space-x-3 cursor-pointer'

@@ -3,6 +3,7 @@ import Side_Bar from "./Side_Bar_phases";
 import { useEffect, useState } from "react";
 import { PhaseContext } from "./PhaseContext";
 import { useSondageStore } from "../store/sondageStore";
+import { Phase } from "../../../types/sondage";
 
 export type Problem = {
   id: number;
@@ -11,14 +12,17 @@ export type Problem = {
   degre: number;
 };
 
-export type Phase = { 
+export type Phase2 = { 
   id: number;
   name: string;
-  starting_date: string;
-  ending_date: string;
+  cout: number;
+  estimated_cout: number;
+  estimated_days: number;
+  days: number;
   depth: number;
   problems: Problem[];
 };
+
 
 export default function SideBarLayout() {
 
@@ -46,7 +50,7 @@ export default function SideBarLayout() {
       catch (error) { 
         console.error('err fetching phases',error)
         throw error
-      }
+      } 
     
   
     }  

@@ -41,17 +41,17 @@ export const SondageList = () => {
             <p className='text-[24px] text-[#8C52FF] font-semibold mt-12 mb-8'>Veuillez sélectionnez un sondage pour le visualiser en détails</p>
             <div className=' flex flex-col w-full gap-[30px] overflow-auto h-[60vh]'>
               {sondages.map((sondage) => (
-              <div key={sondage.id} className={` ${sondageClicked===sondage.id ? ' bg-blue-200':' bg-[#F3F3F3]' } flex justify-between items-center  h-[98px] w-[93%] rounded-lg p-4 shadow-md`}>
+              <div key={sondage.id} className={` ${sondageClicked===sondage.id ? ' bg-blue-200':' bg-[#F3F3F3]' } flex justify-between items-center  h-[98px] w-[93%] rounded-lg p-4 px-7 shadow-md`}>
                 <div className=' flex items-center space-x-6'>
                 <p className='text-[24px] text-black  font-bold'>Sondage {sondage.id}</p>
                 <p className='text-[19px] text-[#6FBAEE] font-bold '>{sondage.started_date}</p>
                 </div>
                 <input 
-                type="radio" 
+                type="radio"  
                 name="sondage" 
                 checked={sondageClicked === sondage.id} 
                 onChange={() => setSondageClicked(sondage.id)} 
-                className=" cursor-pointer form-radio text-[#6FBAEE] size-6   border-2 border-[#6FBAEE]  rounded-full  checked:border-[#ffffff] checked:bg-[#6FBAEE]  "
+                className="  cursor-pointer form-radio text-[#6FBAEE] !w-6 !h-6   border-2 border-[#6FBAEE]  rounded-full  checked:border-[#ffffff] checked:bg-[#6FBAEE]  "
                 />
                  
               </div>

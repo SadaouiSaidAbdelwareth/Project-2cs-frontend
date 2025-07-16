@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react";
-import { Phase } from "./SideBarLayout";
+import {  } from "./SideBarLayout";
+import { Phase } from "../../../types/sondage";
 
 // 1. Crée le contexte UNE SEULE FOIS
 export const PhaseContext = createContext<Phase[]>([]);
