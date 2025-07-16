@@ -1,6 +1,6 @@
 import {create} from 'zustand'
 import { persist } from 'zustand/middleware';
-import { Phase } from '../components/SideBarLayout';
+import { Phase } from '../../../types/sondage';
 
 type sondageStore = { 
     sondageId:string|null,

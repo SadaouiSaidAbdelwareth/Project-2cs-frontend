@@ -83,9 +83,7 @@ total+=oper.total_cout
     ]}
     width={300}
     height={300}
-    slotProps={{
-      legend: { hidden: true }
-    }}
+   
   />
 </div>
 
